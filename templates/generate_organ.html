@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block title %}Generate Organ - 3D Bioprinting Platform{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header bg-info text-white">
+                <h5><i class="fas fa-user"></i> Patient Information</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Name:</strong> {{ patient[2] }}</p>
+                <p><strong>Age:</strong> {{ patient[5] }} years</p>
+                <p><strong>Height:</strong> {{ patient[3] }} cm</p>
+                <p><strong>Weight:</strong> {{ patient[4] }} kg</p>
+                <p><strong>Blood Group:</strong> <span class="badge bg-info">{{ patient[6] }}</span></p>
+                {% if patient[7] %}
+                <p><strong>Medical Conditions:</strong><br>{{ patient[7] }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4><i class="fas fa-cube"></i> Generate 3D Organ Model</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('process_organ_generation') }}">
+                    <input type="hidden" name="patient_id" value="{{ patient[0] }}">
+
+                    <div class="mb-4">
+                        <label for="organ_type" class="form-label">Select Organ Type *</label>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="card organ-card" onclick="selectOrgan('heart')">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-heart fa-3x text-danger mb-2"></i>
+                                        <h5>Heart</h5>
+                                        <p class="text-muted small">Cardiac tissue engineering</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="card organ-card" onclick="selectOrgan('liver')">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-lungs fa-3x text-success mb-2"></i>
+                                        <h5>Liver</h5>
+                                        <p class="text-muted small">Hepatic regeneration</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="card organ-card" onclick="selectOrgan('kidney')">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-kidneys fa-3x text-info mb-2"></i>
+                                        <h5>Kidney</h5>
+                                        <p class="text-muted small">Renal tissue constructs</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="card organ-card" onclick="selectOrgan('ear')">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-deaf fa-3x text-warning mb-2"></i>
+                                        <h5>Ear</h5>
+                                        <p class="text-muted small">Auricular cartilage</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="organ_type" name="organ_type" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="special_requirements" class="form-label">Special Requirements</label>
+                        <textarea class="form-control" id="special_requirements" name="special_requirements" 
+                                  rows="3" placeholder="Enter any special requirements, modifications, or notes for this organ model..."></textarea>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i> 
+                        <strong>Note:</strong> The system will automatically calculate organ dimensions, bioink formulations, 
+                        and material requirements based on the patient's anthropometric data.
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to Dashboard
+                        </a>
+                        <button type="submit" class="btn btn-primary" id="generateBtn" disabled>
+                            <i class="fas fa-cog fa-spin" id="loadingIcon" style="display:none;"></i>
+                            <i class="fas fa-cube" id="generateIcon"></i>
+                            <span id="btnText">Generate Organ Model</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.organ-card {
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 2px solid transparent;
+}
+.organ-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.organ-card.selected {
+    border-color: #007bff;
+    background-color: #f8f9ff;
+}
+</style>
+
+<script>
+function selectOrgan(organType) {
+    // Remove selection from all cards
+    document.querySelectorAll('.organ-card').forEach(card => {
+        card.classList.remove('selected');
+    });
+
+    // Add selection to clicked card
+    event.currentTarget.classList.add('selected');
+
+    // Set hidden input value
+    document.getElementById('organ_type').value = organType;
+
+    // Enable generate button
+    document.getElementById('generateBtn').disabled = false;
+}
+
+// Form submission handling
+document.querySelector('form').addEventListener('submit', function() {
+    document.getElementById('loadingIcon').style.display = 'inline-block';
+    document.getElementById('generateIcon').style.display = 'none';
+    document.getElementById('btnText').textContent = 'Generating...';
+    document.getElementById('generateBtn').disabled = true;
+});
+</script>
+{% endblock %}

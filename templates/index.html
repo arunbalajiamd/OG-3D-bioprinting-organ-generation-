@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block title %}3D Bioprinting Platform - Home{% endblock %}
+
+{% block content %}
+<div class="hero-section bg-gradient-primary text-white py-5 mb-5 rounded">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold mb-4">
+            <i class="fas fa-heart text-danger"></i> 3D Bioprinting Platform
+        </h1>
+        <p class="lead mb-4">
+            Create patient-specific 3D organ models with automated bioink calculations and professional STL exports
+        </p>
+        {% if not session.user_id %}
+        <div class="mt-4">
+            <a href="{{ url_for('register') }}" class="btn btn-light btn-lg me-3">
+                <i class="fas fa-user-plus"></i> Get Started
+            </a>
+            <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </a>
+        </div>
+        {% else %}
+        <div class="mt-4">
+            <a href="{{ url_for('dashboard') }}" class="btn btn-light btn-lg me-3">
+                <i class="fas fa-tachometer-alt"></i> Go to Dashboard
+            </a>
+            <a href="{{ url_for('add_patient') }}" class="btn btn-outline-light btn-lg">
+                <i class="fas fa-plus"></i> Add New Patient
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-md-6 mb-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <i class="fas fa-heart fa-3x text-danger mb-3"></i>
+                <h4>Heart Models</h4>
+                <p class="text-muted">Generate patient-specific cardiac models with specialized bioink formulations for cardiovascular tissue engineering.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <i class="fas fa-lungs fa-3x text-success mb-3"></i>
+                <h4>Liver Models</h4>
+                <p class="text-muted">Create hepatic tissue constructs with optimized bioink compositions for liver regeneration applications.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <i class="fas fa-kidneys fa-3x text-info mb-3"></i>
+                <h4>Kidney Models</h4>
+                <p class="text-muted">Design renal tissue constructs with advanced filtration capabilities and nephron-specific bioinks.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <i class="fas fa-deaf fa-3x text-warning mb-3"></i>
+                <h4>Ear Models</h4>
+                <p class="text-muted">Develop auricular cartilage constructs with specialized chondrocyte-supporting bioink formulations.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-md-12">
+        <h2 class="text-center mb-4">Platform Features</h2>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card border-primary">
+            <div class="card-header bg-primary text-white">
+                <i class="fas fa-calculator"></i> Automated Calculations
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-check text-success"></i> Patient-specific organ scaling</li>
+                    <li><i class="fas fa-check text-success"></i> Bioink component calculations</li>
+                    <li><i class="fas fa-check text-success"></i> Material requirement analysis</li>
+                    <li><i class="fas fa-check text-success"></i> Cost estimation</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card border-success">
+            <div class="card-header bg-success text-white">
+                <i class="fas fa-cube"></i> 3D Modeling
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-check text-success"></i> Professional STL generation</li>
+                    <li><i class="fas fa-check text-success"></i> Anatomically accurate models</li>
+                    <li><i class="fas fa-check text-success"></i> Patient measurement scaling</li>
+                    <li><i class="fas fa-check text-success"></i> Download ready files</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card border-info">
+            <div class="card-header bg-info text-white">
+                <i class="fas fa-flask"></i> Bioink Formulation
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-check text-success"></i> Organ-specific formulations</li>
+                    <li><i class="fas fa-check text-success"></i> Component concentrations</li>
+                    <li><i class="fas fa-check text-success"></i> Crosslinking protocols</li>
+                    <li><i class="fas fa-check text-success"></i> Preparation instructions</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card bg-light">
+            <div class="card-body text-center">
+                <h3>Ready to Get Started?</h3>
+                <p class="text-muted mb-4">
+                    Join the future of personalized medicine with our advanced 3D bioprinting platform.
+                </p>
+                {% if not session.user_id %}
+                <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-rocket"></i> Start Your Journey
+                </a>
+                {% else %}
+                <a href="{{ url_for('add_patient') }}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-plus"></i> Create Your First Model
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<style>
+.hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+.card {
+    transition: transform 0.2s;
+}
+.card:hover {
+    transform: translateY(-5px);
+}
+</style>
+{% endblock %}
